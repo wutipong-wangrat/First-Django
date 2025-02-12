@@ -1,0 +1,11 @@
+<nav class="join flex justify-center my-10" aria-label="product-pagination">
+  {% for page in page_range %} {% if page %}
+  <a
+    class="join-item btn btn-lg {% if page == products.number %}btn-primary text-white{% endif %}"
+    href="?page={{ page }}"
+    >{{ page }}</a
+  >
+  {% else %}
+  <button class="join-item btn btn-lg" disabled>...</button>
+  {% endif %} {% endfor %}
+</nav>

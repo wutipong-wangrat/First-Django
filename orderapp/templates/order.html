@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="my-10 mx-auto max-w-6xl">
+        <div class="flex flex-col">
+            <h1 class="text-2xl font-medium pb-6 border-b border-gray-200">ข้อมูลการจัดส่ง</h1>
+            <form method="post">
+                {% csrf_token %}
+                <fieldset class="fieldset space-y-4 pt-10">
+                    <div class="space-y-2">
+                        <label class="fieldset-label text-lg">ชื่อ-นามสกุล</label>
+                        <input type="text" class="input input-bordered input-info w-full" placeholder="ชื่อ-นามสกุล" name="name">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="fieldset-label text-lg">เบอร์ติดต่อ</label>
+                        <input type="text" class="input input-bordered input-info w-full" placeholder="เบอร์ติดต่อ" name="phone">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="fieldset-label text-lg">ที่อยู่</label>
+                        <textarea name="address" class="textarea w-full textarea-info" rows="4" placeholder="ที่อยู่"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary text-white text-lg">สรุปคำสั่งซื้อ</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

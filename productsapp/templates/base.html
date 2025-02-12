@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="cmyk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/shopping-bag.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+    <!-- navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- content -->
+    <div class="w-auto">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- footer -->
+    <footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+        <form action="">
+            {% csrf_token %}
+                <h6 class="footer-title">Contact</h6>
+                <fieldset class="w-80">
+                    <label>Enter your email address</label>
+                    <div class="join">
+                        <input type="email" placeholder="example@gmail.com" class="input input-bordered join-item">
+                        <button class="btn btn-primary join-item text-white">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </fieldset>
+        </form>
+        <nav>
+            <h6 class="footer-title">Services</h6>
+            <a class="link link-hover" href="">โปรไฟล์</a>
+            <a class="link link-hover" href="{% url 'index' %}">หน้าหลัก</a>
+            <a class="link link-hover" href="{% url 'products' %}">สินค้าทั้งหมด</a>
+        </nav>
+        <nav>
+            <h6 class="footer-title">Social</h6>
+            <div class="grid grid-flow-col gap-4 text-2xl">
+                <a href="" class="link link-hover">
+                    <i class="fa-brands fa-square-facebook hover:text-blue-600 hover:scale-110 duration-200"></i>
+                </a>
+                <a href="" class="link link-hover">
+                    <i class="fa-brands fa-github hover:scale-110 duration-200"></i>
+                </a>
+                <a href="" class="link link-hover">
+                    <i class="fa-brands fa-gitlab hover:text-orange-600 hover:scale-110 duration-200"></i>
+                </a>
+            </div>
+        </nav>
+    </footer>
+
+    <script>
+        let date = new Date();
+        let year = date.getFullYear();
+        document.getElementById('year').innerHTML = year;
+    </script>
+</body>
+</html>

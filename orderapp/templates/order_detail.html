@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div class="my-10 mx-auto max-w-6xl">
+        <h1 class="text-4xl font-bold my-4">รหัสใบสั่งซื้อ #{{ order.id }}</h1>
+        <div class="overflow-x-auto rounded-box border border-base-contetn/5 bg-base-100">
+            <table class="table table-zebra">
+                <thead>
+                    <tr>
+                        <th class="text-center">ชื่อสินค้า</th>
+                        <th class="text-center">ราคา</th>
+                        <th class="text-center">จำนวน</th>
+                        <th class="text-center">รวม</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order_items %}
+                        <tr>
+                            <td class="text-center truncate">{{ item.product }}</td>
+                            <td class="text-center">{{ item.price | intcomma }}</td>
+                            <td class="text-center">{{ item.quantity }} ชิ้น</td>
+                            <td class="text-center">{{ item.sub_total | intcomma }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-right" colspan="3">ยอดรวม</td>
+                        <td class="text-center">{{ order.total | intcomma }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}

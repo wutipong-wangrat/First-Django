@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div class="my-10 mx-auto max-w-6xl">
+        {% if not orders %}
+            <h1 class="text-center text-4xl font-bold my-4">ไม่มีประวัติการสั่งซื้อ</h1>
+            <div class="text-center">
+                <a href="{% url 'index' %}" class="btn btn-primary text-white">กลับสู่หน้าหลัก</a>
+            </div>
+        {% else %}
+            <section>
+                <h1 class="text-center text-4xl font-bold my-4">ประวัติการสั่งซื้อ</h1>
+                {% include 'pagination.html' %}
+                    <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>รหัสใบสั่งซื้อ</th>
+                                    <th class="text-center">วันที่สั่งซื้อ</th>
+                                    <th class="text-center">ยอดชำระเงิน</th>
+                                    <th class="text-center">ดูรายละเอียด</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                    <tr>
+                                        <th class="text-center" width="10%">{{ order.id }}</th>
+                                        <td class="text-center">{{ order.created_at | date:"d M Y" }}</td>
+                                        <td class="text-center">{{ order.total | intcomma }}</td>
+                                        <td class="text-center">
+                                            <a href="{% url 'order' order.id %}" class="text-primary">รายละเอียด</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% include 'pagination.html' %}
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

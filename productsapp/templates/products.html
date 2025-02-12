@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="my-10 mx-auto">
+    <h4 class="text-4xl font-bold text-center">สินค้าทั้งหมด</h4>
+    <!-- pagination -->
+    {% include 'pagination.html' %}
+    <!-- product section -->
+    <div class="flex flex-wrap justify-center lg:space-y-0 my-10 gap-10 sm:space-y-2 ">
+        {%  for product in products %}
+        <!-- product -->
+            <div class="card bg-base-100 w-96 shadow-md break-normal">
+                <figure>
+                    <a href="{% url 'productDetail' product.id %}">
+                        <div {% if product.stock <= 0 %}id="watermark"{% endif %}>
+                            <img src="{{ product.image.url }}" alt="{{  product.name }}" loading="lazy" 
+                            class="hover:opacity-75 object-contain aspect-square">
+                        </div>
+                    </a>
+                </figure>
+                <div class="card-body space-y-4">
+                    <h2 class="card-title {% if product.stock <= 0 %}line-through text-red-500{% endif %}">{{ product.name }}</h2>
+                    <p class="text-ellipsis">{{ product.description }}</p>
+                    <p class="whitespace-pre-line">ราคา: {{ product.price | intcomma }} บาท
+                        <span class="{% if product.stock <= 3 %}text-red-500{% endif %}">จำนวน: {{ product.stock }} ชิ้น</span>
+                    </p>
+                    {% if product.stock <= 0 %}
+                        <a class="btn btn-primary w-full text-white text-lg" disabled>
+                            <i class="fa-solid fa-cart-shopping mr-2"></i>
+                            สินค้าหมด
+                        </a>
+                    {% else %}
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary w-full text-white text-lg hover:shadow-md hover:scale-110">
+                            <i class="fa-solid fa-cart-shopping mr-2"></i>
+                            สั่งซื้อสินค้า
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- pagination -->
+    {% include 'pagination.html' %}
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+#watermark {
+    position: relative;
+}
+#watermark::after{
+    content: "สินค้าหมด";
+    font-size: 4rem;
+    text-wrap: nowrap;
+    font-weight: bold;
+    color: red;
+    opacity: 0.5;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

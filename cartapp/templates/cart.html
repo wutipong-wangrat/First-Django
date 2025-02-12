@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="my-10 mx-auto max-w-6xl">
+    <div class="bg-base-200 flex justify-center items-center p-10">
+        <form class="w-full" method="POST">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-6">
+                <div class="col-span-2 bg-base-100 p-6">
+                    <div class="flex justify-between">
+                        <h2 class="text-lg font-bold">รายการสั่งซื้อ</h2>
+                        <p class="font-light">{{ counter }} รายการ</p>
+                    </div>
+                    <div class="pb-6 my-4 border-b border-gray-200">
+                        <button class="row-start-2 text-primary">
+                            <a href="{% url 'index' %}">
+                                <i class="fa-solid fa-arrow-left-long"></i>
+                                continue shopping
+                            </a>
+                        </button>
+                    </div>
+                    {% if not cartProducts %}
+                        <div class="text-center my-10 space-y-3.5">
+                            <h1 class="font-bold text-4xl">ไม่มีสินค้า</h1>
+                            <a href="{% url 'index' %}" class="btn btn-primary text-white">กลับสู่หน้าหลัก</a>
+                        </div>
+                    {% endif %}
+                    <div class="space-y-4">
+                        {% for product in cartProducts %}
+                            <ul>
+                                <li class="flex justify-between items-center pb-4 border-b border-gray-200">
+                                    <img src="{{ product.product.image.url }}" alt="product image" class="w-20">
+                                    <p class="w-20 text-wrap truncate">{{ product.quantity }} x {{ product.product.name }}</p>
+                                    <p>{{ product.sub_total | intcomma }} บาท</p>
+                                    <a href="{% url 'remove_from_cart' product.product.id %}" 
+                                    class="btn btn-ghost"
+                                    onclick="return confirm('คุณแน่ใจหรือไม่ว่าต้องการลบสินค้าออกจากตะกร้า')">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="bg-base-100 flex flex-col p-6">
+                    <h2 class="text-lg font-bold pb-10 border-b border-gray-200">สรุปคำสั่งซื้อ</h2>
+                    <div class="flex justify-between my-4">
+                        <h2>ยอดชำระเงินรวม</h2>
+                        <p>{{ total | intcomma }} บาท</p>
+                    </div>
+                    <a href="{% url 'order' %}" class="btn btn-primary text-white my-10">ดำเนินการ</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

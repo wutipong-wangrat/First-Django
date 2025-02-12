@@ -1,0 +1,125 @@
+{% load static %}
+<nav  class="navbar bg-base-100 shadow-sm px-28">
+    <div class="flex-1">
+        <a class="btn" href="{% url 'index' %}">
+            <img src="{% static 'images/shopping-bag.png' %}" class="w-12 h-12">
+        </a>
+    </div>
+    <div class="flex-none">
+        <!-- menu -->
+        <ul class="md:menu md:menu-horizontal px-1 space-x-3 hidden">
+            <li><a href="{% url 'index' %}" class="hover:font-bold duration-200">หน้าหลัก</a></li>
+            <li><a href="{% url 'products' %}" class="hover:font-bold duration-200">สินค้าทั้งหมด</a></li>
+        </ul>
+        <!-- menu -->
+
+        <!-- cart -->
+        <div class="md:dropdown dropdown-end hidden mr-4 tooltip tooltip-bottom" data-tip="ตะกร้า">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                <div class="indicator">
+                    <span class="badge badge-sm indicator-item">{{ cartTotal }}</span>
+                    <i class="fa-solid fa-cart-shopping stroke-inherit w-10 text-lg"></i>
+                </div>
+            </div>
+            <div tabindex="0" class="card card-compact dropdown-content bg-base-200 z-1 mt-3 w-60 shadow-sm">
+                <div class="h-56 overflow-x-auto">
+                    <table class="table table-compact w-full bg-base-200">
+                        <thead>
+                            <tr>
+                                <td>สินค้า</td>
+                                <td class="text-center">จำนวน</td>
+                            </tr>
+                        </thead>
+                        <tbody class="text-nowrap">
+                            {% for product in cartProducts %}
+                                <tr>
+                                    <td>{{ product.product.name }}</td>
+                                    <td class="text-center">{{ product.quantity }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td class="text-center">ไม่มีสินค้า</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if cartProducts %}
+                        <a href="{% url 'cart' %}" class="btn btn-primary btn-block text-white hover:shadow-md fixed bottom-0">ตะกร้า {{ cartTotal }} รายการ</a>
+                    {% else %}
+                        <a href="{% url 'cart' %}" class="btn btn-primary btn-block text-white hover:shadow-md fixed bottom-0">ตะกร้า 0 รายการ</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- cart -->
+
+        <!-- profile -->
+        <div class="md:dropdown dropdown-end hidden tooltip tooltip-bottom" data-tip="โปรไฟล์">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar indicator">
+                <div class="w-10 rounded-full">
+                    <img src="{% if user.is_authenticated %}
+                        {% if user.profile.image %}
+                            {{ user.profile.image.url }}
+                        {% else %}
+                            https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp
+                        {% endif %}
+                    {% else %}https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp{% endif %}" alt="profile image" 
+                    loading="lazy">
+                </div>
+                <span class="badge badge-xs {% if user.is_authenticated %}badge-primary{% else %}badge-error{% endif %} indicator-item"></span>
+            </div>
+            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-52 p-2 shadow-sm">
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="#" class="justify-between">
+                        ตั้งค่าโปรไฟล์
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'orderHistory' %}">
+                        ประวัติการสั่งซื้อ
+                    </a>
+                </li>
+                <div class="border my-2"></div>
+                <li>
+                    <a href="{% url 'logout' %}">
+                        ออกจากระบบ
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'login' %}">
+                        ลงชื่อเข้าใช้งาน
+                    </a>
+                    <a href="{% url 'register' %}" class="justify-between">
+                        สมัครสมาชิก
+                        <span class="badge badge-primary">New</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- profile -->
+
+        <!-- hamburger -->
+        <div class="dropdown dropdown-end md:hidden">
+            <label tabindex="0" class="btn btn-ghost btn-circle">
+                <div class="indicator">
+                    <i class="fa-solid fa-bars stroke-inherit"></i>
+                </div>
+            </label>
+            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow-sm">
+                <li>
+                    <a href="#" class="justify-between">ตั้งค่าโปรไฟล์</a>
+                </li>
+                <div class="border my-1"></div>
+                <li><a href="{% url 'index' %}">หน้าหลัก</a></li>
+                <li><a href="{% url 'products' %}">สินค้าทั้งหมด</a></li>
+                <div class="border my-1"></div>
+                <li><a href="{% url 'logout' %}">ออกจากระบบ</a></li>
+            </ul>
+        </div>
+        <!-- hamburger -->
+
+    </div>
+</nav>

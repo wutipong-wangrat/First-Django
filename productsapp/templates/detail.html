@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {% for product in products %}
+        <div class="aspect-square overflow-hidden rounded-lg shadow-lg" 
+        {% if product.stock <= 3 %}id="watermark"{% endif %}>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" 
+            class="w-full h-full object-contain bg-white" loading="lazy">
+        </div>
+        <div class="flex flex-col justify-center space-y-6 p-4">
+            <div class="space-y-2">
+                <h1 class="text-4xl font-bold text-gray-800">{{ product.name }}</h1>
+                <h2 class="{% if product.stock <= 3 %}text-red-500{% endif %} text-xl">เหลือสินค้าอยู่ {{ product.stock }} ชิ้น</h2>
+            </div>
+            <p class="text-lg text-gray-600 leading-relaxed">{{ product.description }}</p>
+            <h2 class="text-3xl font-medium text-gray-800">ราคา {{ product.price | intcomma }} บาท</h2>
+            <div class="divider"></div>
+            {% if product.stock <= 0 %}
+                <a class="btn btn-primary text-white text-lg shadow-md w-full md:w-72 py-6" disabled>
+                    <i class="fa-solid fa-cart-shopping mr-2"></i>
+                    สินค้าหมด
+                </a>
+            {% else %}
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary text-white text-lg shadow-md w-full md:w-72 py-6">
+                    <i class="fa-solid fa-cart-shopping mr-2"></i>
+                    สั่งซื้อสินค้า
+                </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
